@@ -13,8 +13,9 @@ class Translator {
   }
 
   validate(text, locale) {
-    if (!text || !locale) return { error: "Required field(s) missing" };
-    if (text === "") return { error: "No text to translate" };
+    if (text === undefined || locale === undefined)
+      return { error: "Required field(s) missing" };
+    if (!text) return { error: "No text to translate" };
     if (this.locales.indexOf(locale.toLowerCase()) === -1)
       return { error: "Invalid value for locale field" };
     return true;
@@ -26,8 +27,6 @@ class Translator {
       }
       return replace;
     };
-    const isValidate = this.validate(text, locale);
-    if (isValidate !== true) return isValidate;
 
     if (locale.toLowerCase() === this.locales[0]) {
       const titleMatches = Object.keys(americanToBritishTitles).filter(
@@ -39,7 +38,7 @@ class Translator {
       const wordMatches1 = Object.keys(americanOnly).filter((value) =>
         text.toLowerCase().includes(value)
       );
-      const timeMatch = text.match(/[0-9]:[0-9]/g);
+      const timeMatch = text.match(/\b[0-9]{1,2}:[0-9]{1,2}\b/g);
 
       if (titleMatches)
         titleMatches.forEach((match) => {
@@ -85,7 +84,7 @@ class Translator {
       const wordMatches2 = Object.keys(britishOnly).filter((value) =>
         text.toLowerCase().includes(value)
       );
-      const timeMatch = text.match(/[0-9].[0-9]/g);
+      const timeMatch = text.match(/\b[0-9]{1,2}.[0-9]{1,2}\b/g);
 
       if (titleMatches)
         titleMatches.forEach((match) => {
