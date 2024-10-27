@@ -8,6 +8,10 @@ class Translator {
     this.locales = ["american-to-british", "british-to-american"];
   }
 
+  highlightText(text) {
+    return `<span class="highlight">${text}</span>`;
+  }
+
   validate(text, locale) {
     if (!text || !locale) return { error: "Required field(s) missing" };
     if (text === "") return { error: "No text to translate" };
@@ -15,7 +19,13 @@ class Translator {
       return { error: "Invalid value for locale field" };
     return true;
   }
-  translate(text, locale) {
+  translate(text, locale, highlight) {
+    const highLightReplaces = (replace) => {
+      if (typeof highlight === "function") {
+        return highlight(replace);
+      }
+      return replace;
+    };
     const isValidate = this.validate(text, locale);
     if (isValidate !== true) return isValidate;
 
@@ -36,27 +46,32 @@ class Translator {
           const regex = new RegExp(match, "i");
           text = text.replace(
             regex,
-            americanToBritishTitles[match].charAt(0).toUpperCase() +
-              americanToBritishTitles[match].slice(1)
+            highLightReplaces(
+              americanToBritishTitles[match].charAt(0).toUpperCase() +
+                americanToBritishTitles[match].slice(1)
+            )
           );
         });
 
       if (spellingMatches) {
         spellingMatches.forEach((match) => {
           const regex = new RegExp(match, "i");
-          text = text.replace(regex, americanToBritishSpelling[match]);
+          text = text.replace(
+            regex,
+            highLightReplaces(americanToBritishSpelling[match])
+          );
         });
       }
       if (wordMatches1) {
         wordMatches1.forEach((match) => {
           const regex = new RegExp(`${match}\\b`, "i");
-          text = text.replace(regex, americanOnly[match]);
+          text = text.replace(regex, highLightReplaces(americanOnly[match]));
         });
       }
       if (timeMatch) {
         timeMatch.forEach((match) => {
           const newMatch = match.replace(":", ".");
-          text = text.replace(match, newMatch);
+          text = text.replace(match, highLightReplaces(newMatch));
         });
       }
     }
@@ -77,26 +92,28 @@ class Translator {
           const regex = new RegExp(match[1], "i");
           text = text.replace(
             regex,
-            match[0].charAt(0).toUpperCase() + match[0].slice(1)
+            highLightReplaces(
+              match[0].charAt(0).toUpperCase() + match[0].slice(1)
+            )
           );
         });
 
       if (spellingMatches1) {
         spellingMatches1.forEach((match) => {
           const regex = new RegExp(match[1], "ig");
-          text = text.replace(regex, match[0]);
+          text = text.replace(regex, highLightReplaces(match[0]));
         });
       }
       if (wordMatches2) {
         wordMatches2.forEach((match) => {
           const regex = new RegExp(`${match}\\b`, "i");
-          text = text.replace(regex, britishOnly[match]);
+          text = text.replace(regex, highLightReplaces(britishOnly[match]));
         });
       }
       if (timeMatch) {
         timeMatch.forEach((match) => {
           const newMatch = match.replace(".", ":");
-          text = text.replace(match, newMatch);
+          text = text.replace(match, highLightReplaces(newMatch));
         });
       }
     }
