@@ -36,25 +36,17 @@ const americanToBritish = [
     text: "Lunch is at 12:15 today.",
     translate: "Lunch is at 12.15 today.",
   },
+  {
+    text: "Dr. Grosh will see you now.",
+    translate: "Dr Grosh will see you now.",
+  },
+  {
+    text: "No Mr. Bond, I expect you to die.",
+    translate: "No Mr Bond, I expect you to die.",
+  },
 ];
 
 suite("Unit Tests", () => {
-  suite("Test American to British Title translation", () => {
-    test("Translate Dr. Grosh will see you now. to British English", (done) => {
-      const text = "Dr. Grosh will see you now.";
-      const result = "Dr Grosh will see you now.";
-      assert.equal(translator.translate(text, "american-to-british"), result);
-      done();
-      //test ends at the following brackets
-    });
-    test("Translate 'No Mr. Bond, I expect you to die.' to British English", (done) => {
-      const text = "No Mr. Bond, I expect you to die.";
-      const result = "No Mr Bond, I expect you to die.";
-      assert.equal(translator.translate(text, "american-to-british"), result);
-      done();
-      //test ends at the following brackets
-    });
-  });
   suite("Test American to British word translation", () => {
     americanToBritish.forEach((text) => {
       test("Translate Mangoes are my favorite fruit. to British English", (done) => {
