@@ -60,6 +60,28 @@ class Translator {
         });
       }
     }
+    if (locale.toLowerCase() === this.locales[1]) {
+      const titleMatches = Object.entries(americanToBritishTitles).filter(
+        ([key, value]) => text.match(new RegExp(`${value}\\b`, "gi"))
+      );
+      const spellingMatches = Object.keys(americanToBritishSpelling).filter(
+        (value) => text.toLowerCase().includes(value)
+      );
+      const wordMatches1 = Object.keys(americanOnly).filter((value) =>
+        text.toLowerCase().includes(value)
+      );
+      const timeMatch = text.match(/[0-9]:[0-9]/g);
+
+      if (titleMatches)
+        titleMatches.forEach((match) => {
+          const regex = new RegExp(match[1], "i");
+          text = text.replace(
+            regex,
+            match[0].charAt(0).toUpperCase() + match[0].slice(1)
+          );
+        });
+    }
+
     return text;
   }
 }
