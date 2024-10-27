@@ -46,12 +46,35 @@ const americanToBritish = [
   },
 ];
 
+const britishToAmerican = [
+  {
+    text: "Have you met Mrs Kalyani?",
+    translate: "Have you met Mrs. Kalyani?",
+  },
+  {
+    text: "Prof Joyner of King's College, London.",
+    translate: "Prof. Joyner of King's College, London.",
+  },
+];
+
 suite("Unit Tests", () => {
   suite("Test American to British word translation", () => {
     americanToBritish.forEach((text) => {
       test("Translate Mangoes are my favorite fruit. to British English", (done) => {
         assert.equal(
           translator.translate(text.text, "american-to-british"),
+          text.translate
+        );
+        done();
+        //test ends at the following brackets
+      });
+    });
+  });
+  suite("Test British to American word translation", () => {
+    britishToAmerican.forEach((text) => {
+      test("Translate Mangoes are my favorite fruit. to British English", (done) => {
+        assert.equal(
+          translator.translate(text.text, "british-to-american"),
           text.translate
         );
         done();
