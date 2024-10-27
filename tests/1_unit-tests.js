@@ -32,6 +32,10 @@ const americanToBritish = [
     text: "To play hooky means to skip class or work.",
     translate: "To bunk off means to skip class or work.",
   },
+  {
+    text: "Lunch is at 12:15 today.",
+    translate: "Lunch is at 12.15 today.",
+  },
 ];
 
 suite("Unit Tests", () => {
