@@ -3,6 +3,7 @@ const assert = chai.assert;
 
 const Translator = require("../components/translator.js");
 const translator = new Translator();
+
 const americanToBritish = [
   {
     text: "Mangoes are my favorite fruit.",
@@ -88,11 +89,35 @@ const britishToAmerican = [
     translate: "Tea time is usually around 4 or 4:30.",
   },
 ];
+const highlightTranslate = [
+  {
+    text: "Mangoes are my favorite fruit.",
+    translate: 'Mangoes are my <span class="highlight">favourite</span> fruit.',
+    locale: "american-to-british",
+  },
+  {
+    text: "I ate yogurt for breakfast.",
+    translate: 'I ate <span class="highlight">yoghurt</span> for breakfast.',
+    locale: "american-to-british",
+  },
+  {
+    text: "We watched the footie match for a while.",
+    translate:
+      'We watched the <span class="highlight">soccer</span> match for a while.',
+    locale: "british-to-american",
+  },
+  {
+    text: "Paracetamol takes up to an hour to work.",
+    translate:
+      '<span class="highlight">Tylenol</span> takes up to an hour to work.',
+    locale: "british-to-american",
+  },
+];
 
 suite("Unit Tests", () => {
   suite("Test American to British word translation", () => {
     americanToBritish.forEach((text) => {
-      test("Translate Mangoes are my favorite fruit. to British English", (done) => {
+      test("Translate to British English", (done) => {
         assert.equal(
           translator.translate(text.text, "american-to-british"),
           text.translate
@@ -107,6 +132,22 @@ suite("Unit Tests", () => {
       test("Translate to American English", (done) => {
         assert.equal(
           translator.translate(text.text, "british-to-american"),
+          text.translate
+        );
+        done();
+        //test ends at the following brackets
+      });
+    });
+  });
+  suite("Test highlight of translation", () => {
+    highlightTranslate.forEach((text) => {
+      test("HighLight Translation", (done) => {
+        assert.equal(
+          translator.translate(
+            text.text,
+            text.locale,
+            translator.highlightText
+          ),
           text.translate
         );
         done();
