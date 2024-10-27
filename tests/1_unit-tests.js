@@ -48,12 +48,44 @@ const americanToBritish = [
 
 const britishToAmerican = [
   {
+    text: "We watched the footie match for a while.",
+    translate: "We watched the soccer match for a while.",
+  },
+  {
+    text: "Paracetamol takes up to an hour to work.",
+    translate: "Tylenol takes up to an hour to work.",
+  },
+  {
+    text: "I spent the bank holiday at the funfair.",
+    translate: "I spent the public holiday at the carnival.",
+  },
+  {
+    text: "I've just got bits and bobs in my bum bag.",
+    translate: "I've just got odds and ends in my fanny pack.",
+  },
+  {
+    text: "The car boot sale at Boxted Airfield was called off.",
+    translate: "The swap meet at Boxted Airfield was called off.",
+  },
+  {
     text: "Have you met Mrs Kalyani?",
     translate: "Have you met Mrs. Kalyani?",
   },
   {
     text: "Prof Joyner of King's College, London.",
     translate: "Prof. Joyner of King's College, London.",
+  },
+  {
+    text: "First, caramelise the onions.",
+    translate: "First, caramelize the onions.",
+  },
+  {
+    text: "I had a bicky then went to the chippy.",
+    translate: "I had a cookie then went to the fish-and-chip shop.",
+  },
+  {
+    text: "Tea time is usually around 4 or 4.30.",
+    translate: "Tea time is usually around 4 or 4:30.",
   },
 ];
 
@@ -72,7 +104,7 @@ suite("Unit Tests", () => {
   });
   suite("Test British to American word translation", () => {
     britishToAmerican.forEach((text) => {
-      test("Translate Mangoes are my favorite fruit. to British English", (done) => {
+      test("Translate to American English", (done) => {
         assert.equal(
           translator.translate(text.text, "british-to-american"),
           text.translate
