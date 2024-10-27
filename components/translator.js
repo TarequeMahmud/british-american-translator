@@ -20,12 +20,18 @@ class Translator {
     if (isValidate !== true) return isValidate;
 
     if (locale.toLowerCase() === this.locales[0]) {
-      const matches = Object.keys(americanToBritishTitles).filter((value) =>
+      const titleMatches = Object.keys(americanToBritishTitles).filter(
+        (value) => text.toLowerCase().includes(value)
+      );
+      const spellingMatches = Object.keys(americanToBritishSpelling).filter(
+        (value) => text.toLowerCase().includes(value)
+      );
+      const wordMatches1 = Object.keys(americanOnly).filter((value) =>
         text.toLowerCase().includes(value)
       );
 
-      if (matches)
-        matches.forEach((match) => {
+      if (titleMatches)
+        titleMatches.forEach((match) => {
           const regex = new RegExp(match, "i");
           text = text.replace(
             regex,
@@ -34,8 +40,20 @@ class Translator {
           );
         });
 
-      return text;
+      if (spellingMatches) {
+        spellingMatches.forEach((match) => {
+          const regex = new RegExp(match, "i");
+          text = text.replace(regex, americanToBritishSpelling[match]);
+        });
+      }
+      if (wordMatches1) {
+        wordMatches1.forEach((match) => {
+          const regex = new RegExp(`${match}\\b`, "i");
+          text = text.replace(regex, americanOnly[match]);
+        });
+      }
     }
+    return text;
   }
 }
 
