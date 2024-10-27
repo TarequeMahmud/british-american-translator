@@ -64,8 +64,8 @@ class Translator {
       const titleMatches = Object.entries(americanToBritishTitles).filter(
         ([key, value]) => text.match(new RegExp(`${value}\\b`, "gi"))
       );
-      const spellingMatches = Object.keys(americanToBritishSpelling).filter(
-        (value) => text.toLowerCase().includes(value)
+      const spellingMatches1 = Object.entries(americanToBritishSpelling).filter(
+        ([key, value]) => text.match(new RegExp(`${value}\\b`, "gi"))
       );
       const wordMatches1 = Object.keys(americanOnly).filter((value) =>
         text.toLowerCase().includes(value)
@@ -80,6 +80,13 @@ class Translator {
             match[0].charAt(0).toUpperCase() + match[0].slice(1)
           );
         });
+
+      if (spellingMatches1) {
+        spellingMatches1.forEach((match) => {
+          const regex = new RegExp(match[1], "ig");
+          text = text.replace(regex, match[0]);
+        });
+      }
     }
 
     return text;
