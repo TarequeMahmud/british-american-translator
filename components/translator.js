@@ -29,6 +29,7 @@ class Translator {
       const wordMatches1 = Object.keys(americanOnly).filter((value) =>
         text.toLowerCase().includes(value)
       );
+      const timeMatch = text.match(/[0-9]:[0-9]/g);
 
       if (titleMatches)
         titleMatches.forEach((match) => {
@@ -50,6 +51,12 @@ class Translator {
         wordMatches1.forEach((match) => {
           const regex = new RegExp(`${match}\\b`, "i");
           text = text.replace(regex, americanOnly[match]);
+        });
+      }
+      if (timeMatch) {
+        timeMatch.forEach((match) => {
+          const newMatch = match.replace(":", ".");
+          text = text.replace(match, newMatch);
         });
       }
     }
